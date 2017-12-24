@@ -7,6 +7,8 @@
 % graphes
 % 27ef782 12/12/2017 Meilleure permutation possible pour un graphe
 % N/D 15/12/2017 Restructuration du projet (jeu de données écrit en dur)
+% 49c0b9c 23/12/2017 Refactorisation du code faite et renvoi de la
+% meilleure permutation possible
 
 max(dim1, 10).
 max(dim2, 9).
@@ -62,10 +64,10 @@ sommeAire([Diag], ListDim, TmpAire, RET):-
     aireInit(Diag, ListDim, AIRE),
     RET is TmpAire + AIRE.
 
-% Effectue les permutations et trouve la meilleure permutation (+ grande
-% aire)
+% Effectue les permutations et trouve la meilleure permutation (qui
+% maximise la somme des aires des graphes)
 maxAirePermuInit(ListDiag, ListDim, RETPermu):-
-    findall(V2, permut(ListDim, V2), ListDimPermu),
+    findall(V2, permutation(ListDim, V2), ListDimPermu),
     maxAirePermu(ListDiag, ListDimPermu, [], 0, RETPermu).
 
 maxAirePermu(ListDiag, [ListPermu1|ListPermuAutres], TmpPermu, TmpAire, RET):-
@@ -81,12 +83,6 @@ maxAirePermu(ListDiag, [ListPermu1], TmpPermu, TmpAire, RET):-
         RET = ListPermu1
     ;   RET = TmpPermu
     ).
-
-% Toutes les permutations possibles d'une liste
-permut(ListDim, RET):-
-    permutation(ListDim, ListDimPermu),
-    RET = ListDimPermu.
-
 
 
 

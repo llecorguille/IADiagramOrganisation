@@ -10,6 +10,8 @@
 % 49c0b9c 23/12/2017 Refactorisation du code faite et renvoi de la
 % meilleure permutation possible
 % d3fb99f 24/12/2017 Factorisation code inutile
+% 9866c62 27/12/2017 Méthode calcule aire entre chaque dimensions
+% (ordonnancement)
 
 max(dim1, 10).
 max(dim2, 9).
@@ -38,6 +40,14 @@ value(diag3, dim3, 1).
 value(diag3, dim4, 5).
 value(diag3, dim5, 187).
 value(diag3, dim6, 29).
+
+value(diag4, dim1, 1).
+value(diag4, dim2, 1).
+value(diag4, dim3, 2).
+value(diag4, dim4, 20).
+value(diag4, dim5, 17).
+value(diag4, dim6, 144).
+
 
 % Calcule l'aire entre 2 caractéristiques
 aire(Diag, [Dim1, Dim2], Tmp, RET):-
@@ -83,7 +93,9 @@ sommeAire([Diag], ListDim, TmpAire, RET):-
 maxAirePermuInit(ListDiag, ListDim, RETPermu, ListTmp):-
     findall(V2, permutation(ListDim, V2), ListDimPermu),
     maxAirePermu(ListDiag, ListDimPermu, [], 0, RETPermu),
-    sommeAirePosInit(ListDiag, RETPermu, ListTmp).
+    sommeAirePosInit(ListDiag, RETPermu, RetList),
+    write(RetList),
+    differenceAireMultInit(RetList, RetList, ListTmp).
 
 maxAirePermu(ListDiag, [ListPermu1|ListPermuAutres], TmpPermu, TmpAire, RET):-
     sommeAireInit(ListDiag, ListPermu1, Aire),
@@ -99,7 +111,7 @@ maxAirePermu(ListDiag, [ListPermu1], TmpPermu, TmpAire, RET):-
     ;   RET = TmpPermu
     ).
 
-% Calcule l'aire entre 2 caractéristiques
+% Calcule l'aire entre 2 caractéristiques et la met dans une liste
 airePos(Diag, [Dim1, Dim2], TmpArray, RET):-
     value(Diag, Dim1, X1),
     value(Diag, Dim2, X2),
@@ -121,7 +133,8 @@ airePosInit(Diag,[Dim1|ListDim], RET):-
     insertEnd(Dim1, [Dim1|ListDim], N1),
     airePos(Diag, N1, [], RET).
 
-% Calcule la somme des aires de tous les graphes pour une permutation
+% Ajoute la liste des aires entre 2 caractéristiques de tous les graphes
+% dans une liste globale
 sommeAirePosInit(ListDiag, ListDim, RET):-
     sommeAirePos(ListDiag, ListDim, [], RET).
 
@@ -134,14 +147,44 @@ sommeAirePos([Diag], ListDim, TmpArray, RET):-
     airePosInit(Diag, ListDim, ListAire),
     insertEnd(ListAire, TmpArray, RET).
 
+% Parcours toutes les liste d'aires et calcule la différence avec les
+% autres listes d'aires
+differenceAireMultInit(ListAireBase, ListAire, ListRet):-
+    differenceAireMult(ListAireBase, ListAire, [], ListRet).
 
+differenceAireMult([AireBase|ListAireBase], [_|ListAire], TmpRet, ListRet):-
+    differenceAireInit(AireBase, ListAire, Ret),
+    insertEnd(Ret, TmpRet, TmpRet2),
+    differenceAireMult(ListAireBase, ListAire, TmpRet2, ListRet).
 
+differenceAireMult([_|_], _, TmpRet, ListRet):-
+    ListRet = TmpRet.
 
+% Pour une liste d'aire, on va la comparer à toutes les autres listes
+% d'aires (liste d'aire 1 va voir les listes 2, 3, 4, etc. et la 2eme ne
+% verra que la 3, 4 etc mais pas celle d'avant)
+differenceAireInit(AireBase, ListAire, ListRet):-
+    differenceAire(AireBase, ListAire, [], ListRet).
 
+differenceAire(AireBase, [List|ListAire], TmpRet, ListRet):-
+    diffCalculeInit(AireBase, List, Ret),
+    insertEnd(Ret, TmpRet, TmpRet2),
+    differenceAire(AireBase, ListAire, TmpRet2, ListRet).
 
+differenceAire(AireBase, [List], TmpRet, ListRet):-
+    diffCalculeInit(AireBase, List, Ret),
+    insertEnd(Ret, TmpRet, ListRet).
 
+% Calcule la différence entre chaque dimension pour les 2 listes d'aires
+diffCalculeInit(AireBase, ListAire, Ret):-
+    diffCalcule(AireBase, ListAire, 0, Ret).
 
+diffCalcule([ValBase|AireBase], [ValAire|ListAire], TmpRet, Ret):-
+    Tmp1 is (((ValBase - ValAire)*(ValBase - ValAire)) + TmpRet),
+    diffCalcule(AireBase, ListAire, Tmp1, Ret).
 
+diffCalcule([_], [_], TmpRet, Ret):-
+    Ret = TmpRet.
 
 
 

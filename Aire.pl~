@@ -12,6 +12,8 @@
 % d3fb99f 24/12/2017 Factorisation code inutile
 % 9866c62 27/12/2017 Méthode calcule aire entre chaque dimensions
 % (ordonnancement)
+% a7f8318 28/12/2017 Méthode pour calculer la différence entre les
+% graphes (ordonnancement)
 
 max(dim1, 10).
 max(dim2, 9).
@@ -147,6 +149,8 @@ sommeAirePos([Diag], ListDim, TmpArray, RET):-
     airePosInit(Diag, ListDim, ListAire),
     insertEnd(ListAire, TmpArray, RET).
 
+% Parcours toutes les liste d'aires et calcule la différence avec les
+% autres listes d'aires
 differenceAireMultInit(ListAireBase, ListAire, ListRet):-
     differenceAireMult(ListAireBase, ListAire, [], ListRet).
 
@@ -158,6 +162,9 @@ differenceAireMult([AireBase|ListAireBase], [_|ListAire], TmpRet, ListRet):-
 differenceAireMult([_|_], _, TmpRet, ListRet):-
     ListRet = TmpRet.
 
+% Pour une liste d'aire, on va la comparer à toutes les autres listes
+% d'aires (liste d'aire 1 va voir les listes 2, 3, 4, etc. et la 2eme ne
+% verra que la 3, 4 etc mais pas celle d'avant)
 differenceAireInit(AireBase, ListAire, ListRet):-
     differenceAire(AireBase, ListAire, [], ListRet).
 
@@ -170,6 +177,7 @@ differenceAire(AireBase, [List], TmpRet, ListRet):-
     diffCalculeInit(AireBase, List, Ret),
     insertEnd(Ret, TmpRet, ListRet).
 
+% Calcule la différence entre chaque dimension pour les 2 listes d'aires
 diffCalculeInit(AireBase, ListAire, Ret):-
     diffCalcule(AireBase, ListAire, 0, Ret).
 

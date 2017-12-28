@@ -12,6 +12,8 @@
 % d3fb99f 24/12/2017 Factorisation code inutile
 % 9866c62 27/12/2017 Méthode calcule aire entre chaque dimensions
 % (ordonnancement)
+% a7f8318 28/12/2017 Méthode pour calculer la différence entre les
+% graphes (ordonnancement)
 
 max(dim1, 10).
 max(dim2, 9).
@@ -19,6 +21,10 @@ max(dim3, 8).
 max(dim4, 20).
 max(dim5, 500).
 max(dim6, 148).
+max(dim7, 10).
+max(dim8, 10).
+max(dim9, 10).
+max(dim10, 10).
 
 value(diag1, dim1, 5).
 value(diag1, dim2, 1).
@@ -26,6 +32,11 @@ value(diag1, dim3, 6).
 value(diag1, dim4, 16).
 value(diag1, dim5, 471).
 value(diag1, dim6, 34).
+value(diag1, dim6, 34).
+value(diag1, dim7, 4).
+value(diag1, dim8, 3).
+value(diag1, dim9, 2).
+value(diag1, dim10, 1).
 
 value(diag2, dim1, 2).
 value(diag2, dim2, 7).
@@ -33,6 +44,10 @@ value(diag2, dim3, 3).
 value(diag2, dim4, 2).
 value(diag2, dim5, 347).
 value(diag2, dim6, 110).
+value(diag2, dim7, 7).
+value(diag2, dim8, 4).
+value(diag2, dim9, 7).
+value(diag2, dim10, 4).
 
 value(diag3, dim1, 7).
 value(diag3, dim2, 4).
@@ -40,6 +55,10 @@ value(diag3, dim3, 1).
 value(diag3, dim4, 5).
 value(diag3, dim5, 187).
 value(diag3, dim6, 29).
+value(diag3, dim7, 7).
+value(diag3, dim8, 9).
+value(diag3, dim9, 1).
+value(diag3, dim10, 5).
 
 value(diag4, dim1, 1).
 value(diag4, dim2, 1).
@@ -47,7 +66,10 @@ value(diag4, dim3, 2).
 value(diag4, dim4, 20).
 value(diag4, dim5, 17).
 value(diag4, dim6, 144).
-
+value(diag4, dim7, 6).
+value(diag4, dim8, 6).
+value(diag4, dim9, 6).
+value(diag4, dim10, 6).
 
 % Calcule l'aire entre 2 caractéristiques
 aire(Diag, [Dim1, Dim2], Tmp, RET):-

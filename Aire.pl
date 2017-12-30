@@ -14,6 +14,7 @@
 % (ordonnancement)
 % a7f8318 28/12/2017 Méthode pour calculer la différence entre les
 % graphes (ordonnancement)
+% d0067cc 28/12/2017 Ajout de dimensions pour les tests
 
 max(dim1, 10).
 max(dim2, 9).
@@ -71,6 +72,17 @@ value(diag4, dim8, 6).
 value(diag4, dim9, 6).
 value(diag4, dim10, 6).
 
+value(diag5, dim1, 5).
+value(diag5, dim2, 5).
+value(diag5, dim3, 6).
+value(diag5, dim4, 6).
+value(diag5, dim5, 6).
+value(diag5, dim6, 1).
+value(diag5, dim7, 1).
+value(diag5, dim8, 1).
+value(diag5, dim9, 1).
+value(diag5, dim10, 1).
+
 % Calcule l'aire entre 2 caractéristiques
 aire(Diag, [Dim1, Dim2], Tmp, RET):-
     value(Diag, Dim1, X1),
@@ -112,12 +124,14 @@ sommeAire([Diag], ListDim, TmpAire, RET):-
 
 % Effectue les permutations et trouve la meilleure permutation (qui
 % maximise la somme des aires des graphes)
-maxAirePermuInit(ListDiag, ListDim, RETPermu, ListTmp):-
+maxAirePermuInit(ListDiag, ListDim, RETPermu, RetFinal):-
     findall(V2, permutation(ListDim, V2), ListDimPermu),
     maxAirePermu(ListDiag, ListDimPermu, [], 0, RETPermu),
     sommeAirePosInit(ListDiag, RETPermu, RetList),
-    write(RetList),
-    differenceAireMultInit(RetList, RetList, ListTmp).
+    differenceAireMultInit(RetList, RetList, ListTmp),
+    createKeyValueListInit(ListTmp, ListDiag, RetTmp),
+    msort(RetTmp, RetFinalTmp),
+    removeKeyListInit(RetFinalTmp, RetFinal).
 
 maxAirePermu(ListDiag, [ListPermu1|ListPermuAutres], TmpPermu, TmpAire, RET):-
     sommeAireInit(ListDiag, ListPermu1, Aire),
@@ -208,6 +222,31 @@ diffCalcule([ValBase|AireBase], [ValAire|ListAire], TmpRet, Ret):-
 diffCalcule([_], [_], TmpRet, Ret):-
     Ret = TmpRet.
 
+% Créer une liste [value, diag] entre un diagramme et la valeur
+% correspondant a la différence d'air du diagramme 1 et un diagramme
+% suivant. Permet de trier en gardant la correspondance par la suite.
+createKeyValueListInit([List1|_], [_|ListDiag], Ret):-
+    createKeyValueList(List1, ListDiag, [], [], Ret).
 
+createKeyValueList([Value|List], [Diag|ListDiag], EmptyArray, RetTmp, Ret):-
+    insertEnd(Value, EmptyArray, New),
+    insertEnd(Diag, New, RetTmp2),
+    insertEnd(RetTmp2, RetTmp, NewRet),
+    createKeyValueList(List, ListDiag, [], NewRet, Ret).
 
+createKeyValueList(_, _, _, RetTmp, Ret):-
+    Ret = RetTmp.
 
+% Enlève les valeurs des tuples afin de retourner seulement
+% l'ordonnancement des diagrammes
+removeKeyListInit(List, Ret):-
+    TmpArray = [],
+    insertEnd([diag1], TmpArray, Array),
+    removeKeyList(List, Array, Ret).
+
+removeKeyList([[_|Value]|List], TmpList, Ret):-
+    insertEnd(Value, TmpList, TmpRet),
+    removeKeyList(List, TmpRet, Ret).
+
+removeKeyList(_, TmpList, Ret):-
+    Ret = TmpList.

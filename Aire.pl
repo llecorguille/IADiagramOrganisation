@@ -15,6 +15,7 @@
 % a7f8318 28/12/2017 Méthode pour calculer la différence entre les
 % graphes (ordonnancement)
 % d0067cc 28/12/2017 Ajout de dimensions pour les tests
+% c6ca7e8 30/12/2017 Ajout des dernières méthodes pour l'ordonnancement
 
 max(dim1, 10).
 max(dim2, 9).

@@ -222,6 +222,9 @@ diffCalcule([ValBase|AireBase], [ValAire|ListAire], TmpRet, Ret):-
 diffCalcule([_], [_], TmpRet, Ret):-
     Ret = TmpRet.
 
+% Créer une liste [value, diag] entre un diagramme et la valeur
+% correspondant a la différence d'air du diagramme 1 et un diagramme
+% suivant. Permet de trier en gardant la correspondance par la suite.
 createKeyValueListInit([List1|_], [_|ListDiag], Ret):-
     createKeyValueList(List1, ListDiag, [], [], Ret).
 
@@ -234,6 +237,8 @@ createKeyValueList([Value|List], [Diag|ListDiag], EmptyArray, RetTmp, Ret):-
 createKeyValueList(_, _, _, RetTmp, Ret):-
     Ret = RetTmp.
 
+% Enlève les valeurs des tuples afin de retourner seulement
+% l'ordonnancement des diagrammes
 removeKeyListInit(List, Ret):-
     TmpArray = [],
     insertEnd([diag1], TmpArray, Array),

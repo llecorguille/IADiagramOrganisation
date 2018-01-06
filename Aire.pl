@@ -61,7 +61,7 @@ sommeAire([Diag], ListDim, TmpAire, RET):-
 % Effectue les permutations et trouve la meilleure permutation (qui
 % maximise la somme des aires des graphes)
 permuEtOrdo(ListDiag, ListDim, RETPermu, RetFinal):-
-    findall(V2, permutation(ListDim, V2), ListDimPermu),
+    findall(V2, permNotCyclic(ListDim, V2), ListDimPermu),
     maxAirePermu(ListDiag, ListDimPermu, [], 0, RETPermu),
     sommeAirePosInit(ListDiag, RETPermu, RetList),
     differenceAireMultInit(RetList, RetList, ListTmp),
@@ -70,7 +70,7 @@ permuEtOrdo(ListDiag, ListDim, RETPermu, RetFinal):-
     removeKeyListInit(RetFinalTmp, RetFinal).
 
 permuOnly(ListDiag, ListDim, RETPermu):-
-    findall(V2, permutation(ListDim, V2), ListDimPermu),
+    findall(V2, permNotCyclic(ListDim, V2), ListDimPermu),
     maxAirePermu(ListDiag, ListDimPermu, [], 0, RETPermu).
 
 maxAirePermu(ListDiag, [ListPermu1|ListPermuAutres], TmpPermu, TmpAire, RET):-
@@ -201,3 +201,8 @@ permutNonCycle([Elem|List], Tmp, Ret):-
 
 permutNonCycle(Elem, Tmp, Ret):-
     Ret = [Elem|Tmp].
+
+permNotCyclic([First|Liste],[First|Permu]):-
+    permutation(Liste,Permu).
+
+

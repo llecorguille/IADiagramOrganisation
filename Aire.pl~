@@ -83,8 +83,10 @@ maxAirePermu(ListDiag, [ListPermu1|ListPermuAutres], TmpPermu, TmpAire, RET):-
 maxAirePermu(ListDiag, [ListPermu1], TmpPermu, TmpAire, RET):-
     sommeAireInit(ListDiag, ListPermu1, Aire),
     (   TmpAire < Aire ->
+        write(Aire),
         RET = ListPermu1
-    ;   RET = TmpPermu
+    ;   write(TmpAire),
+        RET = TmpPermu
     ).
 
 % Calcule l'aire entre 2 caractéristiques et la met dans une liste

@@ -17,72 +17,7 @@
 % d0067cc 28/12/2017 Ajout de dimensions pour les tests
 % c6ca7e8 30/12/2017 Ajout des dernières méthodes pour l'ordonnancement
 
-max(dim1, 10).
-max(dim2, 9).
-max(dim3, 8).
-max(dim4, 20).
-max(dim5, 500).
-max(dim6, 148).
-max(dim7, 10).
-max(dim8, 10).
-max(dim9, 10).
-max(dim10, 10).
-
-value(diag1, dim1, 5).
-value(diag1, dim2, 1).
-value(diag1, dim3, 6).
-value(diag1, dim4, 16).
-value(diag1, dim5, 471).
-value(diag1, dim6, 34).
-value(diag1, dim6, 34).
-value(diag1, dim7, 4).
-value(diag1, dim8, 3).
-value(diag1, dim9, 2).
-value(diag1, dim10, 1).
-
-value(diag2, dim1, 2).
-value(diag2, dim2, 7).
-value(diag2, dim3, 3).
-value(diag2, dim4, 2).
-value(diag2, dim5, 347).
-value(diag2, dim6, 110).
-value(diag2, dim7, 7).
-value(diag2, dim8, 4).
-value(diag2, dim9, 7).
-value(diag2, dim10, 4).
-
-value(diag3, dim1, 7).
-value(diag3, dim2, 4).
-value(diag3, dim3, 1).
-value(diag3, dim4, 5).
-value(diag3, dim5, 187).
-value(diag3, dim6, 29).
-value(diag3, dim7, 7).
-value(diag3, dim8, 9).
-value(diag3, dim9, 1).
-value(diag3, dim10, 5).
-
-value(diag4, dim1, 1).
-value(diag4, dim2, 1).
-value(diag4, dim3, 2).
-value(diag4, dim4, 20).
-value(diag4, dim5, 17).
-value(diag4, dim6, 144).
-value(diag4, dim7, 6).
-value(diag4, dim8, 6).
-value(diag4, dim9, 6).
-value(diag4, dim10, 6).
-
-value(diag5, dim1, 5).
-value(diag5, dim2, 5).
-value(diag5, dim3, 6).
-value(diag5, dim4, 6).
-value(diag5, dim5, 6).
-value(diag5, dim6, 1).
-value(diag5, dim7, 1).
-value(diag5, dim8, 1).
-value(diag5, dim9, 1).
-value(diag5, dim10, 1).
+:-include('data.pl').
 
 % Calcule l'aire entre 2 caractéristiques
 aire(Diag, [Dim1, Dim2], Tmp, RET):-
@@ -125,7 +60,7 @@ sommeAire([Diag], ListDim, TmpAire, RET):-
 
 % Effectue les permutations et trouve la meilleure permutation (qui
 % maximise la somme des aires des graphes)
-maxAirePermuInit(ListDiag, ListDim, RETPermu, RetFinal):-
+permuEtOrdo(ListDiag, ListDim, RETPermu, RetFinal):-
     findall(V2, permutation(ListDim, V2), ListDimPermu),
     maxAirePermu(ListDiag, ListDimPermu, [], 0, RETPermu),
     sommeAirePosInit(ListDiag, RETPermu, RetList),
@@ -133,6 +68,10 @@ maxAirePermuInit(ListDiag, ListDim, RETPermu, RetFinal):-
     createKeyValueListInit(ListTmp, ListDiag, RetTmp),
     msort(RetTmp, RetFinalTmp),
     removeKeyListInit(RetFinalTmp, RetFinal).
+
+permuOnly(ListDiag, ListDim, RETPermu):-
+    findall(V2, permutation(ListDim, V2), ListDimPermu),
+    maxAirePermu(ListDiag, ListDimPermu, [], 0, RETPermu).
 
 maxAirePermu(ListDiag, [ListPermu1|ListPermuAutres], TmpPermu, TmpAire, RET):-
     sommeAireInit(ListDiag, ListPermu1, Aire),
@@ -144,8 +83,10 @@ maxAirePermu(ListDiag, [ListPermu1|ListPermuAutres], TmpPermu, TmpAire, RET):-
 maxAirePermu(ListDiag, [ListPermu1], TmpPermu, TmpAire, RET):-
     sommeAireInit(ListDiag, ListPermu1, Aire),
     (   TmpAire < Aire ->
+        write(Aire),
         RET = ListPermu1
-    ;   RET = TmpPermu
+    ;   write(TmpAire),
+        RET = TmpPermu
     ).
 
 % Calcule l'aire entre 2 caractéristiques et la met dans une liste
@@ -251,3 +192,12 @@ removeKeyList([[_|Value]|List], TmpList, Ret):-
 
 removeKeyList(_, TmpList, Ret):-
     Ret = TmpList.
+
+permutNonCycleInit(List, Ret):-
+    permutNonCycle(List, [], Ret).
+
+permutNonCycle([Elem|List], Tmp, Ret):-
+    permutNonCycle(List, [Elem|Tmp], Ret).
+
+permutNonCycle(Elem, Tmp, Ret):-
+    Ret = [Elem|Tmp].

@@ -56,7 +56,7 @@ N/D QUINQUENEL Nicolas 15/12/2017 Restructuration du projet (jeu de données écri
 
 Pré-Condition : Les paramètres 1 et 2 sont des listes non vides
 Post-Condition : Le paramètre 3 est une liste
-*/	
+*/
 permu(ListDiag, ListDim, RETPermu):-
     findall(V2, permNonCyclique(ListDim, V2), ListDimPermu),
     %supprimerPermuSymetriqueInit(ListDimPermuAvant, ListDimPermu),

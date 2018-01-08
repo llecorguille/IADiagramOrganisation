@@ -40,4 +40,20 @@ test(maxAirePermu):-
     maxAirePermu([diag1, diag2], [[dim1, dim2, dim3], [dim1, dim3, dim2]], [], 0, Ret),
     assertion(Ret == [dim1, dim2, dim3]).
 
+test(sommeAire):-
+    sommeAireInit([diag1, diag2], [dim1, dim2], Ret),
+    assertion(Ret == 0.95).
+
+test(airePos):-
+    airePosInit(diag1, [dim1, dim2], Ret),
+    assertion(Ret == [0.1, 0.1]).
+
+test(differenceAire):-
+    differenceAireInit([0.1, 0.1], [[0.375, 0.375]], RET),
+    assertion(RET == [0.07562500000000001]).
+
+test(diffCalcule):-
+    diffCalculeInit([0.1, 0.1], [0.375, 0.375], RET),
+    assertion(RET == 0.07562500000000001).
+
 :- end_tests(test).

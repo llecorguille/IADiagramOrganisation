@@ -64,7 +64,7 @@ f22dc3c QUINQUENEL Nicolas 12/12/2017 Calcule de l'aire la plus grande parmi plu
 N/D QUINQUENEL Nicolas 15/12/2017 Restructuration du projet (jeu de données écrit en dur)
 
 Pré-Condition : Les paramètres 1 et 2 sont des listes non vides
-Post-Condition : Le paramètre 3 est une liste de float
+Post-Condition : Le paramètre 3 est un float
 */
 sommeAireInit(ListDiag, ListDim, RET):-
     sommeAire(ListDiag, ListDim, 0, RET).

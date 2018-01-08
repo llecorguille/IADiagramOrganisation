@@ -1,5 +1,7 @@
-% Dimensions
-% Dimension, Valeur Max de la dimension
+/*
+Dimensions
+Dimension | Valeur Max de la dimension
+*/
 
 max(dim1, 4).
 max(dim2, 5).
@@ -11,9 +13,25 @@ max(dim7, 10).
 max(dim8, 20).
 max(dim9,8).
 
+/*
+Index
+Dimension | Indice
+*/
 
-% Diagrammes
-% Nom du diagramme, Dimension, Valeur
+index(dim1, 1).
+index(dim2, 2).
+index(dim3, 3).
+index(dim4, 4).
+index(dim5, 5).
+index(dim6, 6).
+index(dim7, 7).
+index(dim8, 8).
+index(dim9, 9).
+
+/*
+Diagrammes
+Nom du diagramme | Dimension | Valeur
+*/
 
 value(diag1, dim1, 4).
 value(diag1, dim2, 1).

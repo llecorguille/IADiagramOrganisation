@@ -1,0 +1,66 @@
+/*
+@Changelog
+37f95e8 07/12/2017 Initialisation projet
+900d9f9 12/12/2017 Calcule de l'aire
+f22dc3c 12/12/2017 Calcule de l'aire la plus grande parmi plusieurs
+graphes
+27ef782 12/12/2017 Meilleure permutation possible pour un graphe
+N/D 15/12/2017 Restructuration du projet (jeu de données écrit en dur)
+49c0b9c 23/12/2017 Refactorisation du code faite et renvoi de la
+meilleure permutation possible
+d3fb99f 24/12/2017 Factorisation code inutile
+9866c62 27/12/2017 Méthode calcule aire entre chaque dimensions
+(ordonnancement)
+a7f8318 28/12/2017 Méthode pour calculer la différence entre les
+graphes (ordonnancement)
+d0067cc 28/12/2017 Ajout de dimensions pour les tests
+c6ca7e8 30/12/2017 Ajout des dernières méthodes pour l'ordonnancement
+*/
+:-include('aire.pl').
+:-include('ordonnancement.pl').
+/*
+Effectue les permutations et trouve la meilleure permutation (qui
+maximise la somme des aires des graphes)
+
+Paramètre 1 : Liste des diagrammes
+Paramètre 2 : Liste des dimensions
+Paramètre 3 : Résultat -> Meilleure permutation
+Paramètre 4 : Résultat -> Un des ordonnancements optimal
+
+Modifications :
+
+Pré-Condition :
+Post-Condition :
+
+
+*/
+permuEtOrdo([Diag], ListDim, RETPermu, RetFinal):-
+    write(Diag),
+    findall(V2, permNonCyclique(ListDim, V2), ListDimPermu),
+    write('bon'),
+    maxAirePermu([Diag], ListDimPermu, [], 0, RETPermu),
+    RetFinal = Diag.
+
+permuEtOrdo(ListDiag, ListDim, RETPermu, RetFinal):-
+    findall(V2, permNonCyclique(ListDim, V2), ListDimPermu),
+    %supprimerPermuSymetriqueInit(ListDimPermuAvant, ListDimPermu),
+    write('FUCK'),
+    maxAirePermu(ListDiag, ListDimPermu, [], 0, RETPermu),
+    sommeAirePosInit(ListDiag, RETPermu, RetList),
+    differenceAireMultInit(RetList, RetList, ListTmp),
+    creerKeyValueListInit(ListTmp, ListDiag, RetTmp),
+    msort(RetTmp, RetFinalTmp),
+    supprimerKeyListInit(RetFinalTmp, RetFinal).
+
+permuEtOrdo([], [], RETPermu, RetFinal):-
+    RETPermu = [],
+    RetFinal = [].
+
+permu(ListDiag, ListDim, RETPermu):-
+    findall(V2, permNonCyclique(ListDim, V2), ListDimPermu),
+    %supprimerPermuSymetriqueInit(ListDimPermuAvant, ListDimPermu),
+    maxAirePermu(ListDiag, ListDimPermu, [], 0, RETPermu).
+
+
+
+
